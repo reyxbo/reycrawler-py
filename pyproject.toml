@@ -1,0 +1,26 @@
+[project]
+name = "reycrawler"
+version = "1.0.1"
+description = "Web crawler method set."
+readme = "README.md"
+requires-python = ">=3.12"
+license = {file = "LICENSE"}
+keywords = ["rey", "reyxbo", "crawler", "crawl Web"]
+authors = [
+    {name = "Rey", email = "reyxbo@163.com"}
+]
+dependencies = [
+    "bs4",
+    "fake_useragent",
+    "reydb",
+    "reykit",
+    "selenium"
+]
+
+[project.urls]
+Homepage = "https://www.reyxbo.com"
+Repository = "https://github.com/reyxbo/reycrawler-py.git"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

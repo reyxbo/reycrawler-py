@@ -129,7 +129,7 @@ class CrawlerBrowser(CrawlerBase):
         # Build.
 
         ## WeChat.
-        self.db_engine.build.build(tables=tables, skip=True)
+        self.db_engine.build(tables=tables, skip=True)
 
     def __loop_crawl_by_db(self) -> None:
         """

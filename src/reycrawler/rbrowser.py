@@ -51,12 +51,12 @@ class DatabaseORMTableCrawlBrowserPage(rorm.Table):
     __name__ = 'crawl_browser_page'
     __comment__ = 'Crawl browser page HTML text table.'
     create_time: rorm.Datetime = rorm.Field(field_default=':time', not_null=True, index_n=True, comment='Record create time.')
-    update_time: rorm.Datetime = rorm.Field(field_default=':time', arg_default=now, index_n=True, comment='Record update time.')
+    update_time: rorm.Datetime | None = rorm.Field(field_default=':time', arg_default=now, index_n=True, comment='Record update time.')
     id: int = rorm.Field(key_auto=True, comment='ID.')
     url: str = rorm.Field(rorm.types.VARCHAR(8182), not_null=True, comment='Target URL.')
-    html: str = rorm.Field(rorm.types.TEXT, comment='Crawled HTML text.')
+    html: str | None = rorm.Field(rorm.types.TEXT, comment='Crawled HTML text.')
     status: int = rorm.Field(rorm.ENUM(CrawlBrowserPageStatusEnum), field_default=CrawlBrowserPageStatusEnum.WAIT, not_null=True, comment='Crawl status.')
-    note: str = rorm.Field(rorm.types.VARCHAR(500), comment='Note.')
+    note: str | None = rorm.Field(rorm.types.VARCHAR(500), comment='Note.')
 
 class CrawlerBrowser(CrawlerBase):
     """

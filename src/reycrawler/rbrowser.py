@@ -55,7 +55,7 @@ class CrawlerORMTableCrawlBrowserPage(CrawlerBase, rorm.Table):
     id: int = rorm.Field(key_auto=True, comment='ID.')
     url: str = rorm.Field(rorm.types.VARCHAR(8182), not_null=True, comment='Target URL.')
     html: str | None = rorm.Field(rorm.types.TEXT, comment='Crawled HTML text.')
-    status: CrawlBrowserPageStatusEnum = rorm.Field(rorm.ENUM(CrawlBrowserPageStatusEnum), field_default=CrawlBrowserPageStatusEnum.WAIT, not_null=True, comment='Crawl status.')
+    status: str = rorm.Field(rorm.ENUM(CrawlBrowserPageStatusEnum), field_default=CrawlBrowserPageStatusEnum.WAIT, not_null=True, comment='Crawl status.')
     note: str | None = rorm.Field(rorm.types.VARCHAR(500), comment='Note.')
 
 class CrawlerBrowser(CrawlerBase):

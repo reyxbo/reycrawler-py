@@ -21,7 +21,7 @@ from .rbase import CrawlerBase
 
 __all__ = (
     'CrawlBrowserPageStatusEnum',
-    'DatabaseORMTableCrawlBrowserPage',
+    'CrawlerORMTableCrawlBrowserPage',
     'CrawlerBrowser',
     'crawl_page',
     'add_db_crawl_task',
@@ -29,7 +29,7 @@ __all__ = (
     'crawl_page_use_db'
 )
 
-class CrawlBrowserPageStatusEnum(StrEnum):
+class CrawlBrowserPageStatusEnum(CrawlerBase, StrEnum):
     """
     Crawl browser page status enumeration type.
     """
@@ -43,9 +43,9 @@ class CrawlBrowserPageStatusEnum(StrEnum):
     CANCEL = 'cancel'
     'Crawl cancelled.'
 
-class DatabaseORMTableCrawlBrowserPage(rorm.Table):
+class CrawlerORMTableCrawlBrowserPage(CrawlerBase, rorm.Table):
     """
-    Database `crawl_browser_page` table ORM model.
+    Crawler `crawl_browser_page` table ORM model.
     """
 
     __name__ = 'crawl_browser_page'
@@ -55,7 +55,7 @@ class DatabaseORMTableCrawlBrowserPage(rorm.Table):
     id: int = rorm.Field(key_auto=True, comment='ID.')
     url: str = rorm.Field(rorm.types.VARCHAR(8182), not_null=True, comment='Target URL.')
     html: str | None = rorm.Field(rorm.types.TEXT, comment='Crawled HTML text.')
-    status: int = rorm.Field(rorm.ENUM(CrawlBrowserPageStatusEnum), field_default=CrawlBrowserPageStatusEnum.WAIT, not_null=True, comment='Crawl status.')
+    status: CrawlBrowserPageStatusEnum = rorm.Field(rorm.ENUM(CrawlBrowserPageStatusEnum), field_default=CrawlBrowserPageStatusEnum.WAIT, not_null=True, comment='Crawl status.')
     note: str | None = rorm.Field(rorm.types.VARCHAR(500), comment='Note.')
 
 class CrawlerBrowser(CrawlerBase):
@@ -124,7 +124,7 @@ class CrawlerBrowser(CrawlerBase):
         # Parameter.
 
         ## Table.
-        tables = [DatabaseORMTableCrawlBrowserPage]
+        tables = [CrawlerORMTableCrawlBrowserPage]
 
         # Build.
 

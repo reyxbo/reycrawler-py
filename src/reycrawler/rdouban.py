@@ -19,7 +19,7 @@ from reykit.rtime import now
 from .rbase import CrawlerBase
 
 __all__ = (
-    'DatabaseORMTableDoubanMedia',
+    'CrawlerORMTableDoubanMedia',
     'CrawlerDouban'
 )
 
@@ -68,9 +68,9 @@ MediaInfo = TypedDict(
     }
 )
 
-class DatabaseORMTableDoubanMedia(rorm.Table):
+class CrawlerORMTableDoubanMedia(CrawlerBase, rorm.Table):
     """
-    Database "douban_media" table ORM model.
+    Crawler "douban_media" table ORM model.
     """
 
     __name__ = 'douban_media'
@@ -137,7 +137,7 @@ class CrawlerDouban(CrawlerBase):
         # Parameter.
 
         ## Table.
-        tables = [DatabaseORMTableDoubanMedia]
+        tables = [CrawlerORMTableDoubanMedia]
 
         ## View stats.
         views_stats = [

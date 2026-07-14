@@ -70,12 +70,14 @@ def crawl_weibo_hot_search() -> list[dict[Literal['rank', 'time', 'title', 'type
         for info in table
         if 'flag' in info
     ]
-    sort_key = lambda row: (
-        0
-        if row['hot'] is None
-        else row['hot']
+    table.sort(
+        key=lambda row: (
+            0
+            if row['hot'] is None
+            else row['hot']
+        ),
+        reverse=True
     )
-    table.sort(key=sort_key, reverse=True)
     table = [
         {
             'rank': index,

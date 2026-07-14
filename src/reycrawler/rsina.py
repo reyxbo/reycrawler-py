@@ -125,7 +125,7 @@ def crawl_sina_stock_info(code: str | list[str]) -> list[SinaStockInfo]:
     """
 
     # Parameter.
-    if type(code) == str:
+    if type(code) is str:
         code = code.split(',')
     code = [
         (

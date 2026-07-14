@@ -9,7 +9,7 @@
 
 Modules
 -------
-rall : All methods.
+rall : All import methods.
 rbase : Base methods.
 rbrowser : Browser methods.
 rdouban : Crawl Douban website methods.

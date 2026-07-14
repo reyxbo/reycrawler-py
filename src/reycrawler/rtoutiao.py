@@ -55,8 +55,10 @@ def crawl_toutiao_hot_search() -> list[dict[Literal['title', 'type', 'label', 'h
         }
         for info in table
     ]
-    sort_key = lambda row: row['hot']
-    table.sort(key=sort_key, reverse=True)
+    table.sort(
+        key=lambda row: row['hot'],
+        reverse=True
+    )
     table = [
         {
             'rank': index,

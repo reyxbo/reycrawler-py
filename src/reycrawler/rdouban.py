@@ -16,7 +16,7 @@ from reykit.rnet import request
 from reykit.rre import search, findall, sub
 from reykit.rtime import now
 
-from .rbase import CrawlerBase
+from .rbase import CrawlerBase, ua
 
 __all__ = (
     'CrawlerORMTableDoubanMedia',
@@ -260,7 +260,7 @@ class CrawlerDouban(CrawlerBase):
             }
             headers = {
                 'referer': referer,
-                'user-agent': self.ua.edge
+                'user-agent': ua.edge
             }
 
             ## Request.
@@ -376,7 +376,7 @@ class CrawlerDouban(CrawlerBase):
 
         # Parameter.
         url = f'https://movie.douban.com/subject/{id_}/'
-        headers = {'user-agent': self.ua.edge}
+        headers = {'user-agent': ua.edge}
 
         # Request.
         response = request(
@@ -555,7 +555,7 @@ class CrawlerDouban(CrawlerBase):
         """
 
         # Request.
-        headers = {'user-agent': self.ua.edge}
+        headers = {'user-agent': ua.edge}
         response = request(url, headers=headers, check=True)
 
         # Extract.

@@ -9,9 +9,10 @@
 """
 
 from typing import Any, Literal
-from fake_useragent import UserAgent
 from reykit.rnet import request, join_url
 from reykit.rtime import now
+
+from .rbase import ua
 
 __all__ = (
     'crawl_weibo_hot_search',
@@ -40,7 +41,6 @@ def crawl_weibo_hot_search() -> list[dict[Literal['rank', 'time', 'title', 'type
         'last_tab': 'hot',
         'last_table_time': timestamp_second
     }
-    ua = UserAgent()
     headers = {
         'cookie': (
             'SUB=_2AkMf61vxf8NxqwFRmvgTzm_la4RxzAvEieKpt6oqJRMxHRl-yT9yqmIEtRB6NGt1HrGel2jwtm1TPoj0LB2qbH5Djjty; '

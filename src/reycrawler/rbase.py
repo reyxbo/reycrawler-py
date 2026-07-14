@@ -8,13 +8,17 @@
 @Explain : Base methods.
 """
 
+from fake_useragent import UserAgent
 from reykit.rbase import Base
 
 __all__ = (
-    'ClientBase',
+    'CrawlerBase',
+    'ua'
 )
 
 class CrawlerBase(Base):
     """
     Crawler base type.
     """
+
+ua = UserAgent()

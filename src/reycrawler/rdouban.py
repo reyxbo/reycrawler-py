@@ -14,9 +14,10 @@ from reydb import rorm, DatabaseEngine
 from reykit.rbase import throw
 from reykit.rnet import request
 from reykit.rre import search, findall, sub
-from reykit.rtime import now
+from reykit.rtime import now, sleep
 
 from .rbase import CrawlerBase, ua
+from .rbrowser import crawl_page_use_db
 
 __all__ = (
     'CrawlerORMTableDoubanMedia',
@@ -107,15 +108,19 @@ class CrawlerDouban(CrawlerBase):
     Can create database used "self.build_db" method.
     """
 
-    def __init__(self, db_engine: DatabaseEngine | None = None) -> None:
+    def __init__(
+        self,
+        db_engine: DatabaseEngine | None = None
+    ) -> None:
         """
         Build instance attributes.
 
         Parameters
         ----------
         db_engine : Database engine.
-            - "None": Not use database.
-            - "Database": Automatic record to database.
+            - `None`: Not use database and some methods.
+            - `Database`: Automatic record to database.
+        cbrowser : Control browser crawler.
         """
 
         # Build.
@@ -363,7 +368,7 @@ class CrawlerDouban(CrawlerBase):
 
     def crawl_info(self, id_: int) -> MediaInfo:
         """
-        Crawl media information.
+        Crawl media information. Note: need set instance parameter `db_engine`.
 
         Parameters
         ----------
@@ -374,22 +379,37 @@ class CrawlerDouban(CrawlerBase):
         Media information.
         """
 
+        # Check.
+        if self.db_engine is None:
+            throw(AssertionError, self.db_engine)
+
         # Parameter.
         url = f'https://movie.douban.com/subject/{id_}/'
-        headers = {'user-agent': ua.edge}
 
         # Request.
-        response = request(
+        html = crawl_page_use_db(
+            self.db_engine,
             url,
-            headers=headers,
-            check=200
+            note='Crawl douban website media information.',
+            timeout=10
         )
 
+        ## Again.
+        if '<p class="loading">载入中 ...</p>' in html:
+            sleep(5)
+            html = crawl_page_use_db(
+                self.db_engine,
+                url,
+                note='Crawl douban website media information.',
+                timeout=10
+            )
+
         # Extract.
-        html = response.text
         bs = BeautifulSoup(html, 'lxml')
         attrs = {'id': 'info'}
         element = bs.find(attrs=attrs)
+        if element is None:
+            throw(AssertionError, element)
         pattern = r'([^\n]+?): ([^\n]+)\n'
         result = findall(pattern, element.text)
         info_dict: dict[str, str] = dict(result)

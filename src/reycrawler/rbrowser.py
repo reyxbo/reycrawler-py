@@ -11,7 +11,9 @@
 from typing import Any, Literal
 from traceback import format_exc
 from enum import StrEnum
+from requests import RequestException
 from selenium.webdriver import Edge, Chrome, EdgeOptions, ChromeOptions
+from selenium.common.exceptions import TimeoutException
 from reydb import rorm, DatabaseEngine
 from reykit.rbase import throw
 from reykit.rnet import join_url
@@ -68,7 +70,9 @@ class CrawlerBrowser(CrawlerBase):
         driver: Literal['edge', 'chrome'] = 'edge',
         headless: bool = True,
         echo: bool = False,
-        db_engine: DatabaseEngine | None = None
+        db_engine: DatabaseEngine | None = None,
+        load_timeout_s: float = 10,
+        timeout_return: bool = False
     ) -> None:
         """
         Build instance attributes.
@@ -81,13 +85,15 @@ class CrawlerBrowser(CrawlerBase):
         headless : Whether use headless mode.
         echo : Whether to print the report.
         db_engine : Database engine.
-            - `None`: Not use database.
-            - `Database`: Automatic crawl page by database table.
+        load_timeout_s : Loading block timeout seconds, will not throw exception.
+        timeout_return : Timeout occurs, whether return the result, otherwise throw exception.
         """
 
         # Parameter.
         self.echo = echo
         self.db_engine = db_engine
+        self.load_timeout_s = load_timeout_s
+        self.timeout_return = timeout_return
         match driver:
             case 'edge':
                 driver_type = Edge
@@ -108,10 +114,6 @@ class CrawlerBrowser(CrawlerBase):
             options.add_argument('--headless')
         self.driver = driver_type(options)
 
-        ## Crawl by database.
-        if self.db_engine is not None:
-            self.__loop_crawl_by_db()
-
     def build_db(self) -> None:
         """
         Check and build database tables.
@@ -131,10 +133,21 @@ class CrawlerBrowser(CrawlerBase):
         ## WeChat.
         self.db_engine.build(tables=tables, skip=True)
 
-    def __loop_crawl_by_db(self) -> None:
+    def run(
+        self,
+        interval_s: float = 1
+    ) -> None:
         """
-        Loop crawl by database table.
+        Automatic crawl page by database table, must set instance parameter `db_engine`.
+
+        Parameters
+        ----------
+        interval_s : Loop crawl interval seconds.
         """
+
+        # Check.
+        if self.db_engine is None:
+            throw(AssertionError, self.db_engine)
 
         # Echo.
         if self.echo:
@@ -147,7 +160,7 @@ class CrawlerBrowser(CrawlerBase):
             self.__crawl_by_db()
 
             ## Sleep.
-            sleep(1)
+            sleep(interval_s)
 
     def __crawl_by_db(self) -> None:
         """
@@ -166,7 +179,7 @@ class CrawlerBrowser(CrawlerBase):
         for id_, url in task_table:
             try:
                 self.request(url)
-            except BaseException:
+            except RequestException:
                 exc_text = format_exc()
                 print(exc_text)
                 status = CrawlBrowserPageStatusEnum.FAIL
@@ -185,27 +198,42 @@ class CrawlerBrowser(CrawlerBase):
     def request(
         self,
         url: str,
-        params: dict[str, Any] | None = None
+        params: dict[str, Any] | None = None,
+        load_timeout_s: float | None = None,
+        timeout_return: bool | None = None
     ) -> None:
         """
-        Request URL.
+        Request URL, will block until all loaded.
 
         Parameters
         ----------
         url : URL.
         params : URL parameters.
+        load_timeout_s : Loading block timeout seconds, will not throw exception. Default value is `self.load_timeout_s`.
+        timeout_return : Timeout occurs, whether return the result, otherwise throw exception. Default value is `self.timeout_return`.
         """
 
         # Parameter.
         params = params or {}
         url = join_url(url, **params)
+        if load_timeout_s is None:
+            load_timeout_s = self.load_timeout_s
+        if timeout_return is None:
+            timeout_return = self.timeout_return
 
         # Echo.
         if self.echo:
             print(f'Crawl URL "{url}"')
 
         # Request.
-        self.driver.get(url)
+        self.driver.set_page_load_timeout(load_timeout_s)
+        try:
+            self.driver.get(url)
+        except TimeoutException:
+            if not timeout_return:
+                raise
+            if self.echo:
+                print(f'Crawl timeout of {self.load_timeout_s} seconds.')
 
     @property
     def page(self) -> str:

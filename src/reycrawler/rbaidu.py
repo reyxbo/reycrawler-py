@@ -44,7 +44,7 @@ def crawl_baidu_calendar(
     else:
         month += 1
     url = 'https://opendata.baidu.com/data/inner'
-    query = '%s年%s月' % (year, month)
+    query = f'{year}年{month}月'
     params = {
         'tn': 'reserved_all_res_tn',
         'type': 'json',

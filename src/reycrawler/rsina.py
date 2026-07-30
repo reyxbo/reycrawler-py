@@ -136,10 +136,7 @@ def crawl_sina_stock_info(code: str | list[str]) -> list[SinaStockInfo]:
     ]
     code = ','.join(code)
     code = code.lower()
-    url = 'https://hq.sinajs.cn/rn=%s&list=%s' % (
-        now('timestamp'),
-        code
-    )
+    url = f'https://hq.sinajs.cn/rn={now('timestamp')}&list={code}'
     headers = {'Referer': 'https://finance.sina.com.cn'}
 
     # Request.
@@ -187,8 +184,8 @@ def crawl_sina_stock_info(code: str | list[str]) -> list[SinaStockInfo]:
                     'low': float(stock_low),
                     'volume': int(float(stock_volume)),
                     'amount': int(float(stock_amount)),
-                    'time': '%s %s' % (stock_date, stock_time),
-                    'url': 'https://finance.sina.com.cn/realstock/company/%s/nc.shtml' % code
+                    'time': f'{stock_date} {stock_time}',
+                    'url': f'https://finance.sina.com.cn/realstock/company/{code}/nc.shtml'
                 }
 
             # US.
@@ -218,7 +215,7 @@ def crawl_sina_stock_info(code: str | list[str]) -> list[SinaStockInfo]:
                     'low': float(stock_low),
                     'amount': int(float(stock_amount)),
                     'time': stock_date_time,
-                    'url': 'https://stock.finance.sina.com.cn/usstock/quotes/%s.html' % code.replace('$', '.')
+                    'url': f'https://stock.finance.sina.com.cn/usstock/quotes/{code.replace('$', '.')}.html'
                 }
 
             ## Throw exception.

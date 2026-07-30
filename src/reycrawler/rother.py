@@ -13,7 +13,7 @@ from reykit.rre import search
 from reykit.rtime import now
 
 __all__ = (
-    'crawl_lunar_calendar'
+    'crawl_lunar_calendar',
 )
 
 def crawl_lunar_calendar(
@@ -39,7 +39,7 @@ def crawl_lunar_calendar(
     now_date = now('date')
     year = year or now_date.year
     month = month or now_date.month
-    url = 'https://www.rili.com.cn/rili/json/pc_wnl/%s/%02d.js' % (year, month)
+    url = f'https://www.rili.com.cn/rili/json/pc_wnl/{year}/{month:0>2}.js'
     params = {'_': now('timestamp')}
 
     # Request.

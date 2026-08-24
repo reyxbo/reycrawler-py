@@ -8,12 +8,17 @@
 """
 
 from json import loads as json_loads
+from reydb import DatabaseEngine
 from reykit.rnet import request
-from reykit.rre import search
+from reykit.rre import search, findall
 from reykit.rtime import now
+
+from .rbrowser import crawl_page_use_db
 
 __all__ = (
     'crawl_baidu_calendar',
+    'crawl_baidu_bjh_articles',
+    'crawl_baidu_bjh_article_images'
 )
 
 def crawl_baidu_calendar(
@@ -113,3 +118,71 @@ def crawl_baidu_calendar(
         row['work'] = is_work_day
 
     return table
+
+def crawl_baidu_bjh_articles(
+    db_engine: DatabaseEngine,
+    bjh_id: int
+) -> list[str]:
+    """
+    Crawl Baidu website BJH all article URLs list.
+    Note: dependent `rbrowser.CrawlerBrowser` type.
+
+    Parameters
+    ----------
+    db_engine : Database engine instance.
+    bjh_id : BJH ID.
+
+    Returns
+    -------
+    Article URLs list.
+    """
+
+    # Crawl.
+    url = 'https://author.baidu.com/home'
+    params = {
+        'from': 'bjh_article',
+        'app_id': bjh_id
+    }
+    html = crawl_page_use_db(
+        db_engine,
+        url,
+        params,
+        'crawl morn bless image home.'
+    )
+
+    # Extract.
+    pattern = r'https://baijiahao.baidu.com/s\?id=\d+'
+    urls: tuple[str] = findall(pattern, html)
+
+    return urls
+
+def crawl_baidu_bjh_article_images(
+    db_engine: DatabaseEngine,
+    article_url: str
+) -> list[str]:
+    """
+    Crawl baidu website BJH article all image URLs list.
+    Note: dependent `rbrowser.CrawlerBrowser` type.
+
+    Parameters
+    ----------
+    db_engine : Database engine instance.
+    article_url : BJH article URL.
+
+    Returns
+    -------
+    Image URLs list.
+    """
+
+    # Crawl.
+    html = crawl_page_use_db(
+        db_engine,
+        article_url,
+        note='Crawl morn bless image article.'
+    )
+
+    # Extract.
+    pattern = r'https://pics\d.baidu.com/feed/[0-9a-f]{40}.jpeg@f_auto\?token=[0-9a-f]{32}'
+    urls: tuple[str] = findall(pattern, html)
+
+    return urls

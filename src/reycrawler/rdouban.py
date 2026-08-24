@@ -119,7 +119,6 @@ class CrawlerDouban(CrawlerBase):
         db_engine : Database engine.
             - `None`: Not use database and some methods.
             - `Database`: Automatic record to database.
-        cbrowser : Control browser crawler.
         """
 
         # Build.

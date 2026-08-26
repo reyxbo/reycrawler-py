@@ -311,18 +311,20 @@ class CrawlerDouban(CrawlerBase):
 
                 ### Information.
                 desc = item['card_subtitle'].split(' / ', 4)
+                year = countries = classes = directors = stars = None
                 if len(desc) == 5:
                     year, countries, classes, directors, stars = desc
                 elif len(desc) == 4:
                     year, countries, classes, stars = desc
-                    directors = None
-                else:
+                elif len(desc) == 3:
                     year, countries, classes = desc
-                    directors = None
-                    stars = None
-                row['year'] = int(year)
-                row['country'] = countries.split()
-                row['class'] = classes.split()
+                elif len(desc) == 2:
+                    year, countries = desc
+                elif len(desc) == 1:
+                    year, = desc
+                row['year'] = year and int(year)
+                row['country'] = countries and countries.split()
+                row['class'] = classes and classes.split()
                 row['director'] = directors and directors.split()
                 row['star'] = stars and stars.split()
 

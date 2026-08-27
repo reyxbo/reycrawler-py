@@ -90,7 +90,7 @@ class CrawlerORMTableDoubanMedia(CrawlerBase, rorm.Table):
     episode_now: int | None = rorm.Field(rorm.types.SMALLINT, comment='TV drama current episode number.')
     premiere: rorm.Json | None = rorm.Field(rorm.JSONB, comment='Premiere region and date dictionary.')
     country: rorm.Json | None = rorm.Field(rorm.JSONB, comment='Release country list.')
-    class_: rorm.Json | None = rorm.Field(rorm.JSONB, comment='Class list.', name='class')
+    class_: rorm.Json | None = rorm.Field(rorm.JSONB, comment='Class list.', name='class', name_out='class')
     director: rorm.Json | None = rorm.Field(rorm.JSONB, comment='Director list.')
     star: rorm.Json | None = rorm.Field(rorm.JSONB, comment='Star list.')
     scriptwriter: rorm.Json | None = rorm.Field(rorm.JSONB, comment='Scriptwriter list.')

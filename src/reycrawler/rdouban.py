@@ -81,7 +81,7 @@ class CrawlerORMTableDoubanMedia(CrawlerBase, rorm.Table):
     imdb: str | None = rorm.Field(rorm.types.CHAR(10), index_u=True, comment='IMDb ID.')
     type: str = rorm.Field(rorm.types.VARCHAR(5), not_null=True, comment='Media type.')
     name: str = rorm.Field(rorm.types.VARCHAR(200), not_null=True, index_n=True, comment='Media name.')
-    year: str = rorm.Field(rorm.types.SMALLINT, not_null=True, comment='Media content description.')
+    year: int = rorm.Field(rorm.types.SMALLINT, not_null=True, comment='Media release year.')
     desc: str | None = rorm.Field(rorm.types.VARCHAR(1000), comment='Media content description.')
     score: float | None = rorm.Field(comment='Media score, [0,10].')
     score_count: int | None = rorm.Field(comment='Media score count.')

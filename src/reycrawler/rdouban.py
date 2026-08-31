@@ -447,7 +447,10 @@ class CrawlerDouban(CrawlerBase):
 
         ## Score.
         element = bs.find(attrs='ll rating_num')
-        if element.text == '':
+        if (
+            element is None
+            or element.text == ''
+        ):
             infos['score'] = None
         else:
             infos['score'] = float(element.text)
@@ -456,7 +459,10 @@ class CrawlerDouban(CrawlerBase):
         if infos['score'] is not None:
             attrs = {'property': 'v:votes'}
             element = bs.find(attrs=attrs)
-            infos['score_count'] = int(element.text)
+            if element is None:
+                infos['score_count'] = None
+            else:
+                infos['score_count'] = int(element.text)
         else:
             infos['score_count'] = None
 

@@ -4,7 +4,9 @@
 @Time    : 2023-12-29
 @Author  : Rey
 @Contact : reyxbo@163.com
-@Explain : Base methods.
+@Explain : Base methods module.
+    Provides common base methods and shared dependencies used by other crawler modules.
+    It is mainly used to support the operation of other modules and provide common base functionality.
 """
 
 from fake_useragent import UserAgent

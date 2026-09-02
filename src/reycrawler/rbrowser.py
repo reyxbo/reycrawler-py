@@ -4,7 +4,9 @@
 @Time    : 2025-10-24
 @Author  : Rey
 @Contact : reyxbo@163.com
-@Explain : Browser methods.
+@Explain : Browser crawling module.
+    Uses human-like browser control to crawl webpage HTML content, allowing anti-crawling mechanisms on some websites to be bypassed.
+    Browser crawling tasks are provided through database polling, allowing other programs to invoke browser crawling capabilities through database tasks.
 """
 
 from typing import Any, Literal

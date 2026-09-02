@@ -4,7 +4,8 @@
 @Time    : 2024-01-10
 @Author  : Rey
 @Contact : reyxbo@163.com
-@Explain : Baidu website crawling methods.
+@Explain : Baidu website crawling module.
+    Provides data crawling methods for Baidu-related websites.
 """
 
 from json import loads as json_loads

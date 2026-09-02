@@ -4,7 +4,8 @@
 @Time    : 2024-01-10
 @Author  : Rey
 @Contact : reyxbo@163.com
-@Explain : Other website crawling methods.
+@Explain : Other website crawling module.
+    Provides data crawling methods for other websites.
 """
 
 from json import loads as json_loads

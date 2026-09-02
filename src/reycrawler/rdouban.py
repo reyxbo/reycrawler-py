@@ -4,7 +4,8 @@
 @Time    : 2025-08-25
 @Author  : Rey
 @Contact : reyxbo@163.com
-@Explain : Douban website crawling methods.
+@Explain : Douban website crawling module.
+    Provides data crawling methods for Douban.
 """
 
 from typing import TypedDict

@@ -4,7 +4,8 @@
 @Time    : 2024-01-22
 @Author  : Rey
 @Contact : reyxbo@163.com
-@Explain : Weibo website crawling methods.
+@Explain : Weibo website crawling module.
+    Provides data crawling methods for Weibo.
 """
 
 from typing import Any, Literal

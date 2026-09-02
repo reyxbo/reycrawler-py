@@ -4,7 +4,8 @@
 @Time    : 2024-01-22
 @Author  : Rey
 @Contact : reyxbo@163.com
-@Explain : Toutiao website crawling methods.
+@Explain : Toutiao website crawling module.
+    Provides data crawling methods for Toutiao.
 """
 
 from typing import Any, Literal

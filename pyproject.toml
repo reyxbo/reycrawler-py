@@ -1,11 +1,11 @@
 [project]
 name = "reycrawler"
-version = "1.0.18"
-description = "Web crawler method set."
+version = "1.0.19"
+description = "Method integration package for web crawling."
 readme = "README.md"
 requires-python = ">=3.12"
 license = {file = "LICENSE"}
-keywords = ["rey", "reyxbo", "crawler", "crawl Web"]
+keywords = ["rey", "reyxbo", "crawler", "crawl-pages", "browser", "baidu", "douban", "sina", "toutiao", "weibo"]
 authors = [
     {name = "Rey", email = "reyxbo@163.com"}
 ]
@@ -18,7 +18,7 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://www.reyxbo.com"
+Homepage = "https://www.reyxbo.com/release/python/reycrawler"
 Repository = "https://github.com/reyxbo/reycrawler-py.git"
 
 [build-system]

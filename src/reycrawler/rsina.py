@@ -4,7 +4,8 @@
 @Time    : 2024-01-22
 @Author  : Rey
 @Contact : reyxbo@163.com
-@Explain : Sina website crawling methods.
+@Explain : Sina website crawling module.
+    Provides data crawling methods for Sina.
 """
 
 from typing import TypedDict, Literal

@@ -196,7 +196,7 @@ reycrawler 按功能及目标网站划分为多个模块，各模块负责不同
 | Python     | `>=3.12`                                                       |
 | 作者         | `Rey`                                                          |
 | 邮箱         | `reyxbo@163.com`                                               |
-| Homepage   | [reyxbo.com](https://www.reyxbo.com/release/python/reycrawler) |
+| Homepage   | [REYXBO](https://www.reyxbo.com/release/python/reycrawler)     |
 | Repository | [reycrawler-py](https://github.com/reyxbo/reycrawler-py.git)   |
 
 ## 关键词

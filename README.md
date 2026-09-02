@@ -196,7 +196,7 @@ Main dependencies:
 | Python     | `>=3.12`                                                       |
 | Author     | `Rey`                                                          |
 | Email      | `reyxbo@163.com`                                               |
-| Homepage   | [reyxbo.com](https://www.reyxbo.com/release/python/reycrawler) |
+| Homepage   | [REYXBO](https://www.reyxbo.com/release/python/reycrawler)     |
 | Repository | [reycrawler-py](https://github.com/reyxbo/reycrawler-py.git)   |
 
 ## Keywords

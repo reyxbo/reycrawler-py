@@ -315,14 +315,8 @@ class CrawlerDouban(CrawlerBase):
                 year = countries = classes = directors = stars = None
                 if len(desc) == 5:
                     year, countries, classes, directors, stars = desc
-                elif len(desc) == 4:
-                    year, countries, classes, stars = desc
-                elif len(desc) == 3:
-                    year, countries, classes = desc
-                elif len(desc) == 2:
-                    year, countries = desc
-                elif len(desc) == 1:
-                    year, = desc
+                else:
+                    year: str | None = search(r'\d{4}', desc)
                 row['year'] = year and int(year)
                 row['country'] = countries and countries.split()
                 row['class'] = classes and classes.split()

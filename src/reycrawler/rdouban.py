@@ -65,7 +65,8 @@ MediaInfo = TypedDict(
         'imdb': str | None,
         'comment': list[str],
         'image': str,
-        'image_low': str
+        'image_low': str,
+        'video': str
     }
 )
 

@@ -317,7 +317,7 @@ class CrawlerDouban(CrawlerBase):
                 if len(desc) == 5:
                     year, countries, classes, directors, stars = desc
                 else:
-                    year: str | None = search(r'\d{4}', desc)
+                    year: str | None = search(r'\d{4}', item['card_subtitle'])
                 row['year'] = year and int(year)
                 row['country'] = countries and countries.split()
                 row['class'] = classes and classes.split()

@@ -18,7 +18,7 @@ from selenium.common.exceptions import TimeoutException
 from reydb import rorm, DatabaseEngine
 from reykit.rbase import throw
 from reykit.rnet import join_url
-from reykit.rtime import TimeMark, now, sleep
+from reykit.rtime import TimeMark, sleep
 
 from .rbase import CrawlerBase
 

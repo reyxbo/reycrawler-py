@@ -14,7 +14,7 @@ from reydb import rorm, DatabaseEngine
 from reykit.rbase import throw
 from reykit.rnet import request
 from reykit.rre import search, findall, sub
-from reykit.rtime import now, sleep
+from reykit.rtime import sleep
 
 from .rbase import CrawlerBase, ua
 from .rbrowser import crawl_page_use_db

@@ -54,7 +54,7 @@ class CrawlerORMTableCrawlBrowserPage(CrawlerBase, rorm.Table):
     __name__ = 'crawl_browser_page'
     __comment__ = 'Crawl browser page HTML text table.'
     create_time: rorm.Datetime = rorm.Field(field_default=':time', not_null=True, index_n=True, comment='Record create time.')
-    update_time: rorm.Datetime | None = rorm.Field(field_default=':time', arg_default=now, index_n=True, comment='Record update time.')
+    update_time: rorm.Datetime | None = rorm.Field(field_default=':time', index_n=True, comment='Record update time.')
     id: int = rorm.Field(key_auto=True, comment='ID.')
     url: str = rorm.Field(rorm.types.VARCHAR(8182), not_null=True, comment='Target URL.')
     html: str | None = rorm.Field(rorm.types.TEXT, comment='Crawled HTML text.')
@@ -129,10 +129,11 @@ class CrawlerBrowser(CrawlerBase):
         ## Table.
         tables = [CrawlerORMTableCrawlBrowserPage]
 
-        # Build.
+        ## Update time trigger.
+        update_time_triggers=[(CrawlerORMTableCrawlBrowserPage.__tablename__, 'update_time')]
 
-        ## WeChat.
-        self.db_engine.build(tables=tables, skip=True)
+        # Build.
+        self.db_engine.build(tables=tables, update_time_triggers=update_time_triggers, skip=True)
 
     def run(
         self,

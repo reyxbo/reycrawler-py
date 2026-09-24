@@ -78,7 +78,7 @@ class CrawlerORMTableDoubanMedia(CrawlerBase, rorm.Table):
     __name__ = 'douban_media'
     __comment__ = 'Douban media information table.'
     create_time: rorm.Datetime = rorm.Field(field_default=':time', not_null=True, index_n=True, comment='Record create time.')
-    update_time: rorm.Datetime | None = rorm.Field(field_default=':time', arg_default=now, index_n=True, comment='Record update time.')
+    update_time: rorm.Datetime | None = rorm.Field(field_default=':time', index_n=True, comment='Record update time.')
     id: int = rorm.Field(key=True, comment='Douban media ID.')
     imdb: str | None = rorm.Field(rorm.types.CHAR(10), index_u=True, comment='IMDb ID.')
     type: str = rorm.Field(rorm.types.VARCHAR(5), not_null=True, comment='Media type.')
@@ -220,8 +220,11 @@ class CrawlerDouban(CrawlerBase):
             }
         ]
 
+        ## Update time trigger.
+        update_time_triggers=[(CrawlerORMTableDoubanMedia.__tablename__, 'update_time')]
+
         # Build.
-        self.db_engine.build(tables=tables, views_stats=views_stats, skip=True)
+        self.db_engine.build(tables=tables, views_stats=views_stats, update_time_triggers=update_time_triggers, skip=True)
 
     def crawl_table(self) -> MediaTable:
         """

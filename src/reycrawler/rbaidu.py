@@ -8,11 +8,13 @@
     Provides data crawling methods for Baidu-related websites.
 """
 
+from typing import TypedDict
 from json import loads as json_loads
+from datetime import datetime as Datetime
 from reydb import DatabaseEngine
 from reykit.rnet import request
 from reykit.rre import search, findall
-from reykit.rtime import now
+from reykit.rtime import now, to_time
 
 from .rbrowser import crawl_page_use_db
 
@@ -21,6 +23,8 @@ __all__ = (
     'crawl_baidu_bjh_articles',
     'crawl_baidu_bjh_article_images'
 )
+
+ArticlesInfo = TypedDict('ArticlesData', {'url': str, 'title': str, 'time': Datetime})
 
 def crawl_baidu_calendar(
     year: int | None = None,
@@ -123,7 +127,7 @@ def crawl_baidu_calendar(
 def crawl_baidu_bjh_articles(
     db_engine: DatabaseEngine,
     bjh_id: int
-) -> list[str]:
+) -> list[ArticlesInfo]:
     """
     Crawl Baidu website BJH all article URLs list.
     Note: dependent `rbrowser.CrawlerBrowser` type.
@@ -152,10 +156,18 @@ def crawl_baidu_bjh_articles(
     )
 
     # Extract.
-    pattern = r'https://baijiahao.baidu.com/s\?id=\d+'
-    urls: tuple[str] = findall(pattern, html)
+    pattern = r'<[^>]*url="(https://baijiahao.baidu.com/s\?id=\d+)"[^>]*title="([^"]+)"[^>]*publish_at="(\d+)"[^>]*>'
+    data: list[tuple[str]] = findall(pattern, html)
+    data: list[ArticlesInfo] = [
+        {
+            'url': url,
+            'title': title,
+            'time': to_time(int(time))
+        }
+        for url, title, time in data
+    ]
 
-    return urls
+    return data
 
 def crawl_baidu_bjh_article_images(
     db_engine: DatabaseEngine,
